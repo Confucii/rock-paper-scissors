@@ -63,7 +63,7 @@ function game() {
     let playerChoice;
     let gameResult = 0;
 
-    for (let i = 0; i < 5; i++) {
+    /*for (let i = 0; i < 5; i++) {
         keepGoing = true;
         while (keepGoing) {
             playerChoice = prompt("Choose rock, paper or scissors.").toLowerCase();
@@ -72,7 +72,7 @@ function game() {
             }
         }
         gameResult += calcRoundResults(playerChoice, getComputerChoice());
-    }
+    }*/
 
     if (gameResult > 0) {
         console.log("You won!")
