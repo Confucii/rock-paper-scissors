@@ -67,7 +67,6 @@ function game(score, scoreDiv, buttons) {
 
 //when the button is clicked, change its style and calculate the round results
 function clickButton() {
-    this.classList.remove('button-pushed');
     this.classList.add('button-pushed');
     game(calcRoundResults(this.dataset.move, getComputerChoice(), roundResult, score), scoreDiv, buttons);
 }
