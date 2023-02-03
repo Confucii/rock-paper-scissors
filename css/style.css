@@ -1,7 +1,14 @@
+@font-face {
+    font-family: 'ASTRON';
+    src:  url('/css/Astron-Bold.woff2') format('woff2'),
+          url('/css/Astron-Bold.woff') format('woff');
+}
+
 html, 
 body {
     margin: 0px;
     height: 100%;
+    font-family: 'ASTRON', Verdana, 'Geneva', Tahoma, sans-serif;
 }
 
 body{
@@ -18,15 +25,19 @@ body{
 
 button {
     padding: 0px;
+    border: 2px solid purple;
+    border-radius: 2%;
 }
 
 .button-img {
     height: 205px;
     width: auto;
+    display: block;
 }
 
 #buttons {
     display: flex;
+    gap: 8px;
 }
 
 #gameUI{

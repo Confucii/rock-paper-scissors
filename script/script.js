@@ -84,4 +84,6 @@ function game() {
 }
 
 // call the game
-game()
+const buttons = document.querySelectorAll('button');
+console.log(buttons);
+//game()
