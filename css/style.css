@@ -30,6 +30,11 @@ body{
 
 #header {
     font-size: 24px;
+    background-color: orange;
+    align-self: stretch;
+    text-align: center;
+    padding: 8px;
+    line-height: 1.2;
 }
 
 #gameUI{
@@ -37,12 +42,11 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 16px;
 }
 
 #gameUI-header {
     font-size: 24px;
-    color: cyan;
     background-color: orange;
     padding: 5px;
     border-radius: 8px;
@@ -73,6 +77,26 @@ button:hover {
     height: 224px;
     width: auto;
     display: block;
+}
+
+#round-res {
+    background-color: orange;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+#score {
+    background-color: orange;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 24px;
+}
+
+#restart {
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 24px;
 }
 
 #footer {

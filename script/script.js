@@ -18,79 +18,56 @@ function getComputerChoice() {
     return choice;
 }
 
-/* play is a function that simulates one round of Laser Field Grenade game.
-play has two parameters playerSelection which is the choice of the player and computerSelection which is computerSelection.
+/* calcRoundResults is a function that simulates one round of Laser Field Grenade game.
+calcRoundResults has two parameters playerSelection which is the choice of the player and computerSelection which is computerSelection.
 The variable where the returned string will be stored is initialized.
 Text permutations are determined by key-value pairs of words associated with specific choice
 The inputs are compared to determine the winner.
-The string is updated with respect to comparison results.
-For Draw, the string is concatenated with Draw!
-The string is updated with respect to the match up. */
+The string is updated with respect to comparison results. */
 
-function calcRoundResults(playerSelection, computerSelection) {
-    let roundConclusion;
-    let roundResult;
-
+function calcRoundResults(playerSelection, computerSelection, roundResult, score) {
     const names = {
         "Laser" : ["Laser Gun", "is faster than"],
         "Field" : ["Force Field", "deflects"],
         "Grenade" : ["EMP Grenade", "shatters"]
-    }
+    };
 
     if (playerSelection === computerSelection) {
-        roundConclusion = `It's a tie! Both choose similar weapons.`;
-        roundResult = 0;
+        roundResult.textContent = "It's a tie!";
     } else if ((playerSelection === "Laser" && computerSelection === "Grenade") || 
     (playerSelection === "Grenade" && computerSelection === "Field") || 
     (playerSelection === "Field" && computerSelection === "Laser")) {
-        roundConclusion = `You win! ${names[playerSelection][0]} ${names[playerSelection][1]} ${names[computerSelection][0]}.`;
-        roundResult = 1;
+        roundResult.textContent = `You win! ${names[playerSelection][0]} ${names[playerSelection][1]} enemy ${names[computerSelection][0]}.`;
+        score[0] += 1
     } else {
-        roundConclusion = `You lose! ${names[computerSelection][0]} ${names[computerSelection][1]} ${names[playerSelection][0]}.`;
-        roundResult = -1;
+        roundResult.textContent = `You lose! ${names[computerSelection][0]} ${names[computerSelection][1]} your ${names[playerSelection][0]}.`;
+        score[1] += 1
     }
-    
-    console.log(roundConclusion);
-    return roundResult;
+    return score;
 }
 
-/* This function initiates a game and loops through the number of rounds.
-The function prompts user for input until it is valid utilizing while loop.
-The round results are calculated by previously created function. 
-Return values from the function are used to calculate sum of rounds.
-If the sum of rounds is negative, it means that the player, lost.
-For 0 its a draw.
-For positive it is a win.*/
-
-function game() {
-    let keepGoing;
-    let playerChoice;
-    let gameResult = 0;
-
-    /*for (let i = 0; i < 5; i++) {
-        keepGoing = true;
-        while (keepGoing) {
-            playerChoice = prompt("Choose Laser, Field or Grenade.").toLowerCase();
-            if (playerChoice === "Laser" || playerChoice === "Field" || playerChoice === "Grenade") {
-                keepGoing = false;
-            }
-        }
-        gameResult += calcRoundResults(playerChoice, getComputerChoice());
-    }*/
-
-    if (gameResult > 0) {
-        console.log("You won!");
-    } else if (gameResult < 0) {
-        console.log("You lose!");
+function setScore(score, scoreDiv, buttons) {
+    if (score[0] < 5 && score[1] < 5) {
+        scoreDiv.textContent = `${score[0]}-${score[1]}`;
+    } else if (score[0] === 5) {
+        scoreDiv.textContent = `Congrats! You have managed to survive with score: ${score[0]}-${score[1]}.`;
+        restartDiv.setAttribute("style", "background-color: orange");
+        restartDiv.textContent = `The game will restart in 5 seconds.`;
+        gameEnd(score, buttons);
+        setTimeout(gameStart, 5000, buttons);
     } else {
-        console.log("Its a draw!");
+        scoreDiv.textContent = `Damn! You expired with score: ${score[0]}-${score[1]}.`;
+        restartDiv.setAttribute("style", "background-color: orange");
+        restartDiv.textContent = `The game will restart in 5 seconds.`;
+        gameEnd(score, buttons);
+        setTimeout(gameStart, 5000, buttons);
     }
 }
 
 function clickButton() {
     this.classList.remove('button-pushed');
     this.classList.add('button-pushed');
-    calcRoundResults(this.dataset.move, getComputerChoice());
+    setScore(calcRoundResults(this.dataset.move, getComputerChoice(), roundResult, score), scoreDiv, buttons);
 }
 
 function removeClass(e) {
@@ -98,11 +75,33 @@ function removeClass(e) {
     this.classList.remove('button-pushed');
 }
 
-// call the game
+function gameStart(buttons) {
+    restartDiv.textContent = "";
+    scoreDiv.textContent = "0-0"
+    restartDiv.setAttribute("style", "background-color: none");
+    roundResult.textContent = "Another battle is nigh!"
+    buttons.forEach(button => { 
+        button.addEventListener('click', clickButton);
+    });
+}
+
+function gameEnd(score, buttons) {
+    score[0] = 0;
+    score[1] = 0;
+    buttons.forEach(button => { 
+        button.removeEventListener('click', clickButton);
+    });
+}
+
 const buttons = document.querySelectorAll('button');
+const roundResult = document.querySelector('#round-res');
+const scoreDiv = document.querySelector('#score');
+const restartDiv = document.querySelector('#restart');
+const score = [0, 0];
+
 buttons.forEach(button => { 
     button.addEventListener('click', clickButton);
-    button.addEventListener('transitionend', removeClass)
+    button.addEventListener('transitionend', removeClass);
 });
 
 //game()
