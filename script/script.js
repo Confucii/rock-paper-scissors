@@ -20,28 +20,33 @@ function getComputerChoice() {
 
 /* play is a function that simulates one round of Laser Field Grenade game.
 play has two parameters playerSelection which is the choice of the player and computerSelection which is computerSelection.
-First the function needs to take any combination of upper and lower case characters in user input and understand it.
-The input needs to be transformed to uniform style with only first character capitalized.
 The variable where the returned string will be stored is initialized.
+Text permutations are determined by key-value pairs of words associated with specific choice
 The inputs are compared to determine the winner.
 The string is updated with respect to comparison results.
-For Draw, the string is concatenated with Draw! Laser  
+For Draw, the string is concatenated with Draw!
 The string is updated with respect to the match up. */
 
 function calcRoundResults(playerSelection, computerSelection) {
     let roundConclusion;
     let roundResult;
 
+    const names = {
+        "Laser" : ["Laser Gun", "is faster than"],
+        "Field" : ["Force Field", "deflects"],
+        "Grenade" : ["EMP Grenade", "shatters"]
+    }
+
     if (playerSelection === computerSelection) {
-        roundConclusion = `Draw! ${playerSelection} equals ${computerSelection}`;
+        roundConclusion = `It's a tie! Both choose similar weapons.`;
         roundResult = 0;
     } else if ((playerSelection === "Laser" && computerSelection === "Grenade") || 
     (playerSelection === "Grenade" && computerSelection === "Field") || 
     (playerSelection === "Field" && computerSelection === "Laser")) {
-        roundConclusion = `You win! ${playerSelection} beats ${computerSelection}`;
+        roundConclusion = `You win! ${names[playerSelection][0]} ${names[playerSelection][1]} ${names[computerSelection][0]}.`;
         roundResult = 1;
     } else {
-        roundConclusion = `You lose! ${computerSelection} beats ${playerSelection}`;
+        roundConclusion = `You lose! ${names[computerSelection][0]} ${names[computerSelection][1]} ${names[playerSelection][0]}.`;
         roundResult = -1;
     }
     
@@ -82,9 +87,22 @@ function game() {
     }
 }
 
+function clickButton() {
+    this.classList.remove('button-pushed');
+    this.classList.add('button-pushed');
+    calcRoundResults(this.dataset.move, getComputerChoice());
+}
+
+function removeClass(e) {
+    if (e.propertyName !== 'box-shadow') return;
+    this.classList.remove('button-pushed');
+}
+
 // call the game
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => { 
-    button.addEventListener('click', () => calcRoundResults(button.dataset.move, getComputerChoice()))
+    button.addEventListener('click', clickButton);
+    button.addEventListener('transitionend', removeClass)
 });
+
 //game()
