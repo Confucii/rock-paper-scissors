@@ -46,7 +46,8 @@ function calcRoundResults(playerSelection, computerSelection, roundResult, score
     return score;
 }
 
-function setScore(score, scoreDiv, buttons) {
+//this function controls the game flow, restarting the game and outputing the results with respect to game flow.
+function game(score, scoreDiv, buttons) {
     if (score[0] < 5 && score[1] < 5) {
         scoreDiv.textContent = `${score[0]}-${score[1]}`;
     } else if (score[0] === 5) {
@@ -64,17 +65,20 @@ function setScore(score, scoreDiv, buttons) {
     }
 }
 
+//when the button is clicked, change its style and calculate the round results
 function clickButton() {
     this.classList.remove('button-pushed');
     this.classList.add('button-pushed');
-    setScore(calcRoundResults(this.dataset.move, getComputerChoice(), roundResult, score), scoreDiv, buttons);
+    game(calcRoundResults(this.dataset.move, getComputerChoice(), roundResult, score), scoreDiv, buttons);
 }
 
+//transition back
 function removeClass(e) {
     if (e.propertyName !== 'box-shadow') return;
     this.classList.remove('button-pushed');
 }
 
+//restart the game state, reinstate interactive parts
 function gameStart(buttons) {
     restartDiv.textContent = "";
     scoreDiv.textContent = "0-0"
@@ -85,6 +89,7 @@ function gameStart(buttons) {
     });
 }
 
+//remove the interactivity, nullify scores
 function gameEnd(score, buttons) {
     score[0] = 0;
     score[1] = 0;
@@ -93,15 +98,15 @@ function gameEnd(score, buttons) {
     });
 }
 
+//initialize needed variables
 const buttons = document.querySelectorAll('button');
 const roundResult = document.querySelector('#round-res');
 const scoreDiv = document.querySelector('#score');
 const restartDiv = document.querySelector('#restart');
 const score = [0, 0];
 
+//Initialize event listeners for buttons
 buttons.forEach(button => { 
     button.addEventListener('click', clickButton);
     button.addEventListener('transitionend', removeClass);
 });
-
-//game()
