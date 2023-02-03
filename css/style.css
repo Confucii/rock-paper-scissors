@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'ASTRON';
-    src:  url('/css/Astron-Bold.woff2') format('woff2'),
-          url('/css/Astron-Bold.woff') format('woff');
+    src:  url('Astron-Bold.woff2') format('woff2'),
+          url('Astron-Bold.woff') format('woff');
 }
 
 html, 
@@ -16,7 +16,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-image: url('/images/background.png');
+    background-image: url('../images/background.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
