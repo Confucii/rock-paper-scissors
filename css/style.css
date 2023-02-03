@@ -9,6 +9,11 @@ body{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-image: url('/images/background.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    color: cyan;
 }
 
 button {
@@ -31,3 +36,11 @@ button {
     justify-content: center;
 }
 
+#footer {
+    font-size: 18px;
+    background-color: orange;
+    align-self: stretch;
+    text-align: center;
+    color: black;
+    padding: 5px 0px;
+}
