@@ -67,22 +67,15 @@ function game(score, scoreDiv, buttons) {
 
 //when the button is clicked, change its style and calculate the round results
 function clickButton() {
-    this.classList.add('button-pushed');
     game(calcRoundResults(this.dataset.move, getComputerChoice(), roundResult, score), scoreDiv, buttons);
-}
-
-//transition back
-function removeClass(e) {
-    if (e.propertyName !== 'box-shadow') return;
-    this.classList.remove('button-pushed');
 }
 
 //restart the game state, reinstate interactive parts
 function gameStart(buttons) {
     restartDiv.textContent = "";
-    scoreDiv.textContent = "0-0"
+    scoreDiv.textContent = "0-0";
     restartDiv.setAttribute("style", "background-color: none");
-    roundResult.textContent = "Another battle is nigh!"
+    roundResult.textContent = "Another battle is nigh!";
     buttons.forEach(button => { 
         button.addEventListener('click', clickButton);
     });
@@ -107,5 +100,4 @@ const score = [0, 0];
 //Initialize event listeners for buttons
 buttons.forEach(button => { 
     button.addEventListener('click', clickButton);
-    button.addEventListener('transitionend', removeClass);
 });
